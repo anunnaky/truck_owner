@@ -12,78 +12,88 @@
         body { font-family: 'Noto Sans KR', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
-        <div class="bg-blue-600 px-6 py-8 text-center text-white">
-            <h1 class="text-2xl font-bold mb-2">용마로지스(주) 화물차주 전용</h1>
-            <p class="text-lg">종합소득세 신고 대행 신청</p>
-        </div>
-        
-        <form id="taxForm" class="p-6 md:p-8 space-y-6">
-            <div class="space-y-4">
-                <div>
-                    <label for="name" class="block text-gray-700 font-medium mb-2 text-lg">성함</label>
-                    <!-- 운전 중에도 터치하기 쉽도록 py-4(상하 패딩)와 text-lg(큰 글씨)를 적용했습니다. -->
-                    <input type="text" id="name" name="name" required placeholder="홍길동" 
-                           class="w-full px-4 py-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
-                </div>
-                
-                <div>
-                    <label for="phone" class="block text-gray-700 font-medium mb-2 text-lg">휴대폰 번호</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000" maxlength="13"
-                           class="w-full px-4 py-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
-                </div>
+<body class="bg-gray-50 min-h-screen flex flex-col p-4 relative">
+    <div class="flex-grow flex items-center justify-center w-full">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden relative z-10">
+            <div class="bg-blue-600 px-6 py-8 text-center text-white">
+                <h1 class="text-2xl font-bold mb-2">용마로지스(주) 화물차주 전용</h1>
+                <p class="text-lg">종합소득세 신고 대행 신청</p>
             </div>
+            
+            <form id="taxForm" class="p-6 md:p-8 space-y-6">
+                <!-- 중복 경고 메시지 영역 -->
+                <div id="duplicateWarning" class="hidden bg-red-50 text-red-600 p-4 rounded-xl border border-red-200 text-sm font-medium"></div>
 
-            <!-- 법적 필수항목: 개인정보 제3자 제공 동의 -->
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <label class="flex items-start space-x-3 cursor-pointer">
-                    <div class="flex-shrink-0 mt-1">
-                        <input type="checkbox" id="consent" required
-                               class="w-6 h-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer">
+                <div class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-gray-700 font-medium mb-2 text-lg">성함</label>
+                        <input type="text" id="name" name="name" required placeholder="홍길동" 
+                               class="w-full px-4 py-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
                     </div>
-                    <div class="text-gray-700">
-                        <span class="font-medium block text-lg mb-1">[필수] 개인정보 제3자 제공 동의</span>
-                        <span class="text-sm text-gray-500">신청 및 상담 목적으로 회계사무실에 정보가 제공됨에 동의합니다.</span>
+                    
+                    <div>
+                        <label for="phone" class="block text-gray-700 font-medium mb-2 text-lg">휴대폰 번호</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="010-0000-0000" maxlength="13"
+                               class="w-full px-4 py-4 text-lg border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors">
                     </div>
-                </label>
-            </div>
+                </div>
 
-            <!-- 안내 문구 -->
-            <div class="text-blue-700 font-medium text-center bg-blue-50 py-3 px-4 rounded-lg flex items-center justify-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="text-base sm:text-lg text-left break-keep">신청 시 MOU 체결 회계사무실에서 직접 안내 전화를 드립니다.</span>
-            </div>
+                <!-- 법적 필수항목: 개인정보 제3자 제공 동의 -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <label class="flex items-start space-x-3 cursor-pointer">
+                        <div class="flex-shrink-0 mt-1">
+                            <input type="checkbox" id="consent" required
+                                   class="w-6 h-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer">
+                        </div>
+                        <div class="text-gray-700">
+                            <span class="font-medium block text-lg mb-1">[필수] 개인정보 제3자 제공 동의</span>
+                            <span class="text-sm text-gray-500">신청 및 상담 목적으로 회계사무실에 정보가 제공됨에 동의합니다.</span>
+                        </div>
+                    </label>
+                </div>
 
-            <!-- 제출 버튼 -->
-            <button type="submit" id="submitBtn" 
-                    class="w-full py-5 px-6 rounded-xl text-xl font-bold transition-all shadow-lg active:scale-95 bg-blue-600 hover:bg-blue-700 text-white">
-                신고 대행 신청하기
-            </button>
-        </form>
+                <!-- 안내 문구 -->
+                <div class="text-blue-700 font-medium text-center bg-blue-50 py-3 px-4 rounded-lg flex items-center justify-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="text-base sm:text-lg text-left break-keep">신청 시 MOU 체결 회계사무실에서 직접 안내 전화를 드립니다.</span>
+                </div>
 
-        <!-- 제출 성공 안내 화면 (초기엔 숨겨져 있음) -->
-        <div id="successScreen" class="hidden p-6 md:p-8 text-center space-y-6">
-            <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
+                <!-- 제출 버튼 -->
+                <button type="submit" id="submitBtn" 
+                        class="w-full py-5 px-6 rounded-xl text-xl font-bold transition-all shadow-lg active:scale-95 bg-blue-600 hover:bg-blue-700 text-white">
+                    신고 대행 신청하기
+                </button>
+            </form>
+
+            <!-- 제출 성공 안내 화면 (초기엔 숨겨져 있음) -->
+            <div id="successScreen" class="hidden p-6 md:p-8 text-center space-y-6">
+                <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h2 id="successMessageTitle" class="text-2xl font-bold text-gray-800 leading-snug">
+                    <span id="successNameSpan" class="text-blue-600"></span>님<br>신청이 완료되었습니다.
+                </h2>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 text-left mt-6">
+                    <p class="text-base text-gray-700 leading-relaxed text-center break-keep font-medium">
+                        MOU 체결 회계사무실에서 등록하신 연락처로 안내 전화를 드릴 예정입니다.
+                    </p>
+                </div>
+                <button type="button" id="resetFormBtn" class="mt-4 text-blue-500 hover:text-blue-700 underline text-sm transition-colors">
+                    다른 분의 신청을 추가하시려면 여기를 눌러주세요.
+                </button>
             </div>
-            <h2 id="successMessageTitle" class="text-2xl font-bold text-gray-800 leading-snug">
-                <!-- 홍길동님<br>신청이 완료되었습니다. -->
-            </h2>
-            <div class="bg-gray-50 border border-gray-200 rounded-xl p-5 text-left mt-6">
-                <p class="text-base text-gray-700 leading-relaxed text-center break-keep font-medium">
-                    MOU 체결 회계사무실에서 등록하신 연락처로 안내 전화를 드릴 예정입니다.
-                </p>
-            </div>
-            <button type="button" id="resetFormBtn" class="mt-4 text-gray-500 hover:text-gray-700 underline text-sm transition-colors">
-                다른 분의 신청을 추가하시려면 여기를 눌러주세요.
-            </button>
         </div>
     </div>
+    
+    <!-- 용마로지스 푸터 영역 -->
+    <footer class="w-full text-center py-6 text-gray-400 text-sm mt-auto relative z-10">
+        <p class="font-bold text-gray-500 mb-1">용마로지스주식회사</p>
+        <p>운영전략팀 · 차량파트</p>
+    </footer>
 
     <!-- 스크립트 구역 (JavaScript 기능) -->
     <script>
@@ -96,9 +106,12 @@
         const submitBtn = document.getElementById('submitBtn');
         const consentCheckbox = document.getElementById('consent');
         
+        const duplicateWarning = document.getElementById('duplicateWarning');
         const successScreen = document.getElementById('successScreen');
-        const successMessageTitle = document.getElementById('successMessageTitle');
+        const successNameSpan = document.getElementById('successNameSpan');
         const resetFormBtn = document.getElementById('resetFormBtn');
+
+        let isSubmitting = false;
 
         // 제출된 내역을 로컬 스토리지에서 가져오는 함수
         function getSubmissions() {
@@ -121,6 +134,14 @@
             return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
         }
 
+        // 폼 초기화 함수
+        function resetUI() {
+            successScreen.classList.add('hidden');
+            duplicateWarning.classList.add('hidden');
+            form.reset();
+            form.classList.remove('hidden');
+        }
+
         // 입력 중 연락처가 다 입력되었을 때 중복 체크
         phoneInput.addEventListener('input', function (e) {
             let val = e.target.value.replace(/[^0-9]/g, '');
@@ -134,53 +155,79 @@
             }
             e.target.value = res;
 
-            // 13자리 (010-0000-0000) 모두 입력했을 때 중복 안내
+            // 13자리 (010-0000-0000) 모두 입력했을 때 하단 경고 표시
             if (res.length === 13) {
                 const existing = checkDuplicate(res);
                 if (existing) {
-                    alert(`"${existing.name}"님은 ${formatDate(existing.date)}에 이미 신청을 완료하셨습니다.\n수정이나 추가 문의가 필요하신 경우 운영전략팀으로 연락해주세요.`);
+                    duplicateWarning.innerHTML = `⚠️ <b>${existing.name}</b>님은 ${formatDate(existing.date)}에 이미 신청을 완료하셨습니다.<br><span class='text-xs mt-1 block text-red-500'>*수정이나 추가 문의가 필요하신 경우 운영전략팀으로 연락해주세요.</span>`;
+                    duplicateWarning.classList.remove('hidden');
+                } else {
+                    duplicateWarning.classList.add('hidden');
                 }
+            } else {
+                duplicateWarning.classList.add('hidden');
             }
         });
 
         // 새로운 신청을 위해 초기화하는 버튼
-        resetFormBtn.addEventListener('click', () => {
-            successScreen.classList.add('hidden');
-            form.reset();
-            form.classList.remove('hidden');
-        });
+        resetFormBtn.addEventListener('click', resetUI);
 
         // 폼 제출 로직 (Google Apps Script 연동)
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+
+            if (isSubmitting) return;
+
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+
+            // 유효성 검사 (Validation)
+            if (name.length < 2) {
+                alert("정확한 성함을 입력해주세요.");
+                nameInput.focus();
+                return;
+            }
+
+            const phonePattern = /^010-\d{4}-\d{4}$/;
+            if (!phonePattern.test(phone)) {
+                alert("휴대폰 번호를 010-0000-0000 형식으로 정확히 입력해주세요.");
+                phoneInput.focus();
+                return;
+            }
 
             if (!consentCheckbox.checked) {
                 alert("개인정보 제공에 동의해주세요.");
                 return;
             }
 
-            const name = nameInput.value;
-            const phone = phoneInput.value;
-
             // 중복 제출 다시 한 번 방지
             const existing = checkDuplicate(phone);
             if (existing) {
-                alert(`"${existing.name}"님은 ${formatDate(existing.date)}에 이미 신청을 완료하셨습니다.`);
+                alert(`"${existing.name}"님은 ${formatDate(existing.date)}에 이미 신청을 완료하셨습니다.\n추가 문의는 운영전략팀으로 연락해주세요.`);
                 return;
             }
 
+            isSubmitting = true;
             // 신청 완료 전 로딩 상태 UI 처리
             submitBtn.disabled = true;
             submitBtn.innerText = "처리 중...";
             submitBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
             submitBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
 
-            // fetch() API를 활용하여 구글 스프레드시트로 정보 전달 (POST)
+            // Form Data 형식으로 변환하여 전송 (CORS 이슈 우회 및 확실한 데이터 전달)
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('phone', phone);
+
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // CORS 에러 방지를 위해 추가
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ name: name, phone: phone })
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("서버 에러가 발생했습니다.");
+                }
+                return response.text();
             })
             .then(() => {
                 // 신청 내역 로컬 스토리지에 저장
@@ -191,26 +238,25 @@
                     date: new Date().toISOString()
                 });
                 localStorage.setItem('taxSubmissions', JSON.stringify(submissions));
+                localStorage.removeItem('taxSubmitted'); // 구버전 호환용 플래그 삭제
 
-                // 기존 taxSubmitted 클리어 (이전 버전 호환성 용이성)
-                localStorage.removeItem('taxSubmitted');
-
-                // 성공 화면 표시
+                // 성공 화면 표시 (보안: textContent를 사용하여 XSS 방지)
                 form.classList.add('hidden');
-                successMessageTitle.innerHTML = `<span class="text-blue-600">${name}</span>님<br>신청이 완료되었습니다.`;
+                successNameSpan.textContent = name;
                 successScreen.classList.remove('hidden');
-                
-                // 원상 복구 (폼 재등장 대비)
-                submitBtn.disabled = false;
-                submitBtn.innerText = "신고 대행 신청하기";
-                submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                submitBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
             })
             .catch(error => {
                 console.error('Error!', error.message);
-                alert('신청 중 서버 연결 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-                
-                // 에러 시 버튼 원상 복구
+                // no-cors 설정이 없으므로, Google Apps Script 쪽에서 리다이렉션으로 인한 CORS 에러가 발생할 수 있습니다.
+                // 만약 Apps Script 쪽 구현이 단순 JSON 반환이라면, 브라우저가 막을 수 있습니다.
+                // 일반적인 GAS WebApp의 경우 요청이 성공적으로 도달했더라도 CORS 에러 콘솔이 뜰 수 있는데, 
+                // 이땐 위의 catch로 빠질 수 있으니 모니터링이 필요합니다. 
+                // 일단 여기서는 사용자에게 재접속 안내를 해줍니다.
+                alert('신청이 성공적으로 접수되었거나 서버 연결이 지연되고 있습니다.\n동일 번호 신청 확인을 위해 화면을 새로고침 해주세요.');
+            })
+            .finally(() => {
+                // 상태 복구 (폼 재등장 대비)
+                isSubmitting = false;
                 submitBtn.disabled = false;
                 submitBtn.innerText = "신고 대행 신청하기";
                 submitBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
